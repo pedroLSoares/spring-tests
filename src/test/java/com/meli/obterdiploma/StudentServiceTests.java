@@ -50,7 +50,7 @@ public class StudentServiceTests {
     public void shouldCreateStudent(){
 
 
-        this.service.create(mockedStudent);
+        assertDoesNotThrow(() -> this.service.create(mockedStudent));
         Mockito.verify(mockStudentDao, Mockito.times(1)).save(this.mockedStudent);
     }
 

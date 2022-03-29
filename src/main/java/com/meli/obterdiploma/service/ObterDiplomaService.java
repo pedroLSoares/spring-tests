@@ -3,6 +3,7 @@ package com.meli.obterdiploma.service;
 import com.meli.obterdiploma.model.StudentDTO;
 import com.meli.obterdiploma.model.SubjectDTO;
 import com.meli.obterdiploma.repository.IStudentDAO;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +11,7 @@ import java.text.DecimalFormat;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class ObterDiplomaService implements IObterDiplomaService {
 
     @Autowired
