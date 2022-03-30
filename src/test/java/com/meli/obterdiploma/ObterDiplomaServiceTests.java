@@ -4,26 +4,30 @@ import com.meli.obterdiploma.exception.StudentNotFoundException;
 import com.meli.obterdiploma.model.StudentDTO;
 import com.meli.obterdiploma.model.SubjectDTO;
 import com.meli.obterdiploma.repository.IStudentDAO;
-import com.meli.obterdiploma.repository.StudentDAO;
 import com.meli.obterdiploma.service.ObterDiplomaService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@ExtendWith(MockitoExtension.class)
 public class ObterDiplomaServiceTests {
-
+    @Mock
     private IStudentDAO mockStudentDao;
+
+    @InjectMocks
     private ObterDiplomaService service;
     private StudentDTO mockedStudent;
 
     @BeforeEach
     public void beforeEach(){
-        this.mockStudentDao = Mockito.mock(StudentDAO.class);
-        this.service = new ObterDiplomaService(mockStudentDao);
         this.mockedStudent = new StudentDTO(
                 111L,
                 "Mocked student",

@@ -1,29 +1,35 @@
 package com.meli.obterdiploma;
 
 
+import com.meli.obterdiploma.exception.InvalidObjectException;
 import com.meli.obterdiploma.exception.StudentNotFoundException;
 import com.meli.obterdiploma.model.StudentDTO;
 import com.meli.obterdiploma.model.SubjectDTO;
 import com.meli.obterdiploma.repository.IStudentDAO;
 import com.meli.obterdiploma.repository.IStudentRepository;
-import com.meli.obterdiploma.repository.StudentDAO;
-import com.meli.obterdiploma.repository.StudentRepository;
 import com.meli.obterdiploma.service.StudentService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@ExtendWith(MockitoExtension.class)
 public class StudentServiceTests {
 
+    @Mock
     private IStudentDAO mockStudentDao;
 
-    private IStudentRepository mockStudentRpository;
+    @Mock
+    private IStudentRepository mockStudentRepository;
 
+    @InjectMocks
     private StudentService service;
 
     private final StudentDTO mockedStudent = new StudentDTO(
@@ -36,14 +42,6 @@ public class StudentServiceTests {
                     5.5
             ))
     );
-
-    @BeforeEach
-    public void beforeEach(){
-        this.mockStudentDao = Mockito.mock(StudentDAO.class);
-        this.mockStudentRpository = Mockito.mock(StudentRepository.class);
-
-        this.service = new StudentService(this.mockStudentDao, this.mockStudentRpository);
-    }
 
     // CREATE
     @Test
@@ -94,8 +92,17 @@ public class StudentServiceTests {
 
     @Test
     public void shouldUpdateStudent(){
-        service.update(mockedStudent);
+        assertDoesNotThrow(() -> service.update(mockedStudent));
         Mockito.verify(mockStudentDao, Mockito.times(1)).save(mockedStudent);
+    }
+
+    @Test
+    public void shouldThrowExceptionWhenReceiveInvalidBody(){
+        StudentDTO data = null;
+        Mockito.doThrow(new InvalidObjectException("")).when(mockStudentDao).save(null);
+
+        assertThrows(InvalidObjectException.class, () -> service.update(null));
+        Mockito.verify(mockStudentDao, Mockito.times(1)).save(null);
     }
 
     // DELETE
@@ -117,12 +124,12 @@ public class StudentServiceTests {
 
     @Test
     public void shouldFindAllStudents(){
-        Mockito.when(mockStudentRpository.findAll()).thenReturn(Set.of(mockedStudent));
+        Mockito.when(mockStudentRepository.findAll()).thenReturn(Set.of(mockedStudent));
 
         Set<StudentDTO> students = service.getAll();
 
         assertEquals(Set.of(mockedStudent).size(), students.size());
-        Mockito.verify(mockStudentRpository, Mockito.times(1)).findAll();
+        Mockito.verify(mockStudentRepository, Mockito.times(1)).findAll();
     }
 
 

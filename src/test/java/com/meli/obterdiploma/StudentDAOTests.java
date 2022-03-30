@@ -1,5 +1,6 @@
 package com.meli.obterdiploma;
 
+import com.meli.obterdiploma.exception.InvalidObjectException;
 import com.meli.obterdiploma.exception.StudentNotFoundException;
 import com.meli.obterdiploma.model.StudentDTO;
 import com.meli.obterdiploma.model.SubjectDTO;
@@ -90,7 +91,7 @@ public class StudentDAOTests {
 
     @Test
     public void shouldNotSaveNullValue(){
-        assertThrows(NullPointerException.class, () -> studentDAO.save(null));
+        assertThrows(InvalidObjectException.class, () -> studentDAO.save(null));
 
     }
 
