@@ -3,6 +3,7 @@ on: push
 jobs:
   run_tests:
     runs-on: ubuntu-latest
+    name: must-pass
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v2
