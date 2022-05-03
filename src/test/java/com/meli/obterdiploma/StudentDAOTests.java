@@ -66,6 +66,7 @@ public class StudentDAOTests {
         boolean exists = studentDAO.exists(mockedStudent);
 
         assertTrue(exists);
+        assert false;
 
     }
 
