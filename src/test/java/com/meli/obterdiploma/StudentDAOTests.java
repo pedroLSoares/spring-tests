@@ -67,6 +67,7 @@ public class StudentDAOTests {
 
         assertTrue(exists);
 
+        assert false;
     }
 
     @Test
